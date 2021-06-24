@@ -16,7 +16,11 @@
        $count = mysqli_num_rows($result);
        
        // If result matched $myusername and $mypassword, table row must be 1 row
-         
+       if(isset($_POST["savepass"])){
+		   setcookie('user', $myusername, time()+3600);
+		   setcookie('pass', $mypassword, time()+3600);
+
+	   }  
        if($count == 1) {
          
           $_SESSION['login_user'] = $myusername;
@@ -68,12 +72,14 @@
 				<form class="login100-form validate-form p-b-33 p-t-5" method = "POST" action = "">
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="User name">
+						<input class="input100" type="text" name="username"
+						<?php if(isset($_COOKIE['user'])) {?> value="<?php echo $_COOKIE['user']?>" <?php } else { ?> placeholder="User name" <?php } ?>>
 						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="pass" 
+						<?php if(isset($_COOKIE['pass'])){ ?> value="<?php echo $_COOKIE['pass'] ?>" <?php } else {?> placeholder="Password" <?php } ?>>
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
 
@@ -81,6 +87,9 @@
 						<button class="login100-form-btn">
 							Login
 						</button>
+					</div>
+					<div class="container-login100-form-btn m-t-32">
+						<input type="checkbox" name="savepass" /> <label>Nhớ mât khẩu </label>
 					</div>
                     <div class="wrap-signup">
                         <a href="sign-up.php">sign-up</a>
